@@ -291,7 +291,7 @@ delay(MS), Led1 Red, Led1 Green, Led1 Blue, Led2 Red, Led2 Green, Led2 Blue, Led
 Notes:
 
 - delay should be in range 10-1000
-- LEAD value should be in range 0-255
+- each R,G,B LED value should be in range 0-255
 
 We are loading that file, skipping first line and proceed as below:
 
