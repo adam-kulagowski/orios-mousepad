@@ -6,11 +6,10 @@ import dbus
 import threading
 import time
 import os
+import usb.core
 import configparser
 
 PATH=os.path.dirname(__file__)
-
-print(PATH)
 
 config_file=PATH+"/orios_pad.ini"
 
@@ -142,11 +141,15 @@ def screen_lock():
     global OLD_COL
     global stop_threads
 
+    #was device disconnected
+    USB_DISCONNECTED=0
+
     session_bus = dbus.SessionBus()
     screensaver_list = ['org.gnome.ScreenSaver',
                     'org.cinnamon.ScreenSaver',
                     'org.kde.screensaver',
-                    'org.freedesktop.ScreenSaver']
+                    'org.freedesktop.ScreenSaver',
+                    'org.xfce.ScreenSaver']
     for each in screensaver_list:
         try:
             object_path = '/{0}'.format(each.replace('.', '/'))
@@ -176,6 +179,16 @@ def screen_lock():
 
         old_status=status
         #print(status)
+
+        #we need to also ccheck if device was disconnected/connected 
+        dev = usb.core.find(idVendor=vid, idProduct=pid)
+        if dev is None:
+            USB_DISCONNECTED=1
+        else:
+            if USB_DISCONNECTED == 0:
+                set_mode(CUR_MODE,CUR_COL)
+                USB_DISCONNECTED=0
+    
         time.sleep(1)
         
         if stop_thread:
