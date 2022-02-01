@@ -8,10 +8,14 @@ import time
 import os
 import configparser
 
-config_file="orios_pad.ini"
+PATH=os.path.dirname(__file__)
+
+print(PATH)
+
+config_file=PATH+"/orios_pad.ini"
 
 TRAY_TOOLTIP = 'Orios Mousepad' 
-TRAY_ICON = 'icon_dark_64.png' 
+TRAY_ICON = PATH+'/icon_dark_64.png' 
 vid = "0C45"	# Change it for your device
 pid = "763D"	# Change it for your device
 
